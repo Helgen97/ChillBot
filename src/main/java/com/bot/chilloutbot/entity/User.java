@@ -5,6 +5,7 @@ import com.bot.chilloutbot.bot.BotStates;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "Bot_Users")
 public class User {
 
     @Id

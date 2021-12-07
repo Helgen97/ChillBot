@@ -2,13 +2,19 @@ package com.bot.chilloutbot.services;
 
 import com.bot.chilloutbot.entity.User;
 import com.bot.chilloutbot.repo.UserRepo;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@PropertySource("classpath:telegram.properties")
 public class UserService {
 
     private final UserRepo userRepo;
+
+    @Value("bot.admin")
+    private String adminUsername;
 
     public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
@@ -16,8 +22,8 @@ public class UserService {
 
     @Transactional
     public void addUser(User user){
-        if(user.getFirstName().equals("Дмитрий")){
-            user.setAdmin(true);
+        if(user.getUsername() != null){
+            if(user.getUsername().equals(adminUsername)) user.setAdmin(true);
         }
         userRepo.save(user);
     }
