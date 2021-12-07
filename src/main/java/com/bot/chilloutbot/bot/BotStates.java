@@ -7,7 +7,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -30,7 +32,7 @@ public enum BotStates {
                     """;
             String error = "BotState/Start/Init: Executing message to user error";
 
-            START.sendMessage(bot, user.getStringID(), userText, START.getDefaultButtons(user.isAdmin()), error );
+            START.sendMessage(bot, user.getStringID(), userText, START.getDefaultButtons(user.isAdmin()), error, 1 );
         }
     },
     NEWS{
@@ -38,7 +40,7 @@ public enum BotStates {
         public void init(ChatBot bot, User user) {
             String userText = bot.getNews();
             String errorUserMessage = "BotStates/News/Init: Executing message to user error";
-            NEWS.sendMessage(bot, user.getStringID(), userText, NEWS.getBackButton(), errorUserMessage);
+            NEWS.sendMessage(bot, user.getStringID(), userText, NEWS.getBackButton(), errorUserMessage, 1);
         }
     },
     MENU {
@@ -46,7 +48,7 @@ public enum BotStates {
         public void init(ChatBot bot, User user) {
             String userText = "Відправляемо меню...";
             String errorUserMessage = "BotState/Menu/Init: Executing message to user error";
-            MENU.sendMessage(bot, user.getStringID(), userText, null, errorUserMessage);
+            MENU.sendMessage(bot, user.getStringID(), userText, null, errorUserMessage, 1);
 
             String errorDocumentMessage = "BotState/Menu/Init: Executing pdf to user error";
             MENU.sendDocument(bot, user.getStringID(), MENU.getBackButton(), errorDocumentMessage);
@@ -64,7 +66,7 @@ public enum BotStates {
                     І в найближчий час тобі прийде оповіщення стосовно твоеї броні.\s
                     Чекаемо на тебе!""";
             String errorUserMessage = "BotState/Reserve/Init: Executing message to user error";
-            RESERVE.sendMessage(bot, user.getStringID(), userText, null, errorUserMessage);
+            RESERVE.sendMessage(bot, user.getStringID(), userText, null, errorUserMessage, 1);
 
         }
 
@@ -72,7 +74,7 @@ public enum BotStates {
         public void userInput(ChatBot bot, User user, User userAdmin, String userInput) {
             String userText = "Дякую! Ми обов'язково перевіримо і повідомимо тебе про твою бронь.";
             String errorUserMessage = "BotState/Reserve/UserInput: Executing message to user error";
-            RESERVE.sendMessage(bot, user.getStringID(),userText, RESERVE.getBackButton(), errorUserMessage);
+            RESERVE.sendMessage(bot, user.getStringID(),userText, RESERVE.getBackButton(), errorUserMessage, 2);
 
             String adminText = "Бажана бронь: \n" + userInput;
             String errorAdminMessage = "BotState/Reserve/UserInput: Executing message to admin error";
@@ -88,14 +90,14 @@ public enum BotStates {
 
             String userText = "Напиши нам свій номер і за декілька хвилин чекай нашого дзвінка.";
             String errorUserMessage = "BotState/Number/Init: Executing message to user error";
-            NUMBER.sendMessage(bot, user.getStringID(), userText, null, errorUserMessage);
+            NUMBER.sendMessage(bot, user.getStringID(), userText, null, errorUserMessage, 1);
         }
 
         @Override
         public void userInput(ChatBot bot, User user, User userAdmin, String userInput) {
             String userText = "Дякую! За декілька хвилин ми наберемо тебе!";
             String errorUserMessage = "BotState/Number/UserInput: Executing message to user error";
-            NUMBER.sendMessage(bot, user.getStringID(), userText, RESERVE.getBackButton(), errorUserMessage);
+            NUMBER.sendMessage(bot, user.getStringID(), userText, RESERVE.getBackButton(), errorUserMessage,2);
 
             String adminText = user.getFirstName() + " " + user.getLastName() + " залишив свій номер:\n" + userInput;
             String errorAdminMessage = "BotState/Number/UserInput: Executing message to admin error";
@@ -113,7 +115,7 @@ public enum BotStates {
                     До зустрічі!
                     """;
             String errorUserMessage = "BotState/Confirm/Init: Executing message to user error";
-            CONFIRM.sendMessage(bot, chatID, userText, CONFIRM.getBackButton(), errorUserMessage);
+            CONFIRM.sendMessage(bot, chatID, userText, CONFIRM.getBackButton(), errorUserMessage, 1);
         }
     },
     DECLINE {
@@ -123,7 +125,7 @@ public enum BotStates {
                     На жаль, ми не можемо підтвердити твою бронь. \s
                     Ти можеш залишити свій номер і ми з радістю допоможемо тобі!""";
             String errorUserMessage = "BotState/Decline/Init: Executing message to user error";
-            DECLINE.sendMessage(bot, user.getStringID(), userText, DECLINE.getNumberButton(), errorUserMessage);
+            DECLINE.sendMessage(bot, user.getStringID(), userText, DECLINE.getNumberButton(), errorUserMessage, 1);
         }
     },
     REVIEW {
@@ -137,7 +139,7 @@ public enum BotStates {
                     Відправ відгук окремим повідомленням:\s
                     """;
             String errorUserMessage = "BotState/Review/Init: Executing message to user error";
-            REVIEW.sendMessage(bot, user.getStringID(), userText, null, errorUserMessage);
+            REVIEW.sendMessage(bot, user.getStringID(), userText, null, errorUserMessage, 1);
         }
 
         @Override
@@ -147,7 +149,7 @@ public enum BotStates {
                     Чекаемо тебе в гості!
                     """;
             String errorUserMessage = "BotState/Review/UserInput: Executing message to user error";
-            REVIEW.sendMessage(bot, user.getStringID(), userText, REVIEW.getBackButton(), errorUserMessage);
+            REVIEW.sendMessage(bot, user.getStringID(), userText, REVIEW.getBackButton(), errorUserMessage, 2);
 
             String adminText = "Відгук від: " + user.getFirstName() + " " + user.getLastName() +
                     "\n" + "Відгук: \n" + userInput;
@@ -186,7 +188,7 @@ public enum BotStates {
                      Адреса: Дніпровська Набережна, 25а\s
                     """;
             String errorUserMessage = "BotState/Contacts/Init: Executing message to user error";
-            CONTACTS.sendMessage(bot, user.getStringID(), userText, CONTACTS.getBackButton(), errorUserMessage);
+            CONTACTS.sendMessage(bot, user.getStringID(), userText, CONTACTS.getBackButton(), errorUserMessage, 1);
         }
     },
     ADDNEWS{
@@ -195,7 +197,7 @@ public enum BotStates {
             user.setCurrentState(this);
             String userText = "Відправ новий текст новини: ";
             String errorUserText = "BotStates/AddNews/Init: Executing message to user error.";
-            ADDNEWS.sendMessage(bot, user.getStringID(), userText, null, errorUserText);
+            ADDNEWS.sendMessage(bot, user.getStringID(), userText, null, errorUserText, 1);
         }
 
         @Override
@@ -204,7 +206,7 @@ public enum BotStates {
 
             String userText = "Новина успішно змінена!";
             String errorUserText = "BotStates/AddNews/UserInput: Executing message to user error.";
-            ADDNEWS.sendMessage(bot, user.getStringID(), userText, null, errorUserText);
+            ADDNEWS.sendMessage(bot, user.getStringID(), userText, ADDNEWS.getBackButton(), errorUserText, 2);
 
             user.setCurrentState(null);
         }
@@ -222,14 +224,15 @@ public enum BotStates {
     public void userInput(ChatBot bot, User user, User userAdmin, String userInput) {
     }
 
-    private void sendMessage(ChatBot bot, String chatId, String text, InlineKeyboardMarkup buttons, String error){
+    private void sendMessage(ChatBot bot, String chatId, String text, InlineKeyboardMarkup buttons, String error, int countToDelete){
         SendMessage message = new SendMessage();
         message.enableHtml(true);
         message.setChatId(chatId);
         message.setText(text);
         message.setReplyMarkup(buttons);
         try {
-            bot.execute(message);
+            Message message1 =bot.execute(message);
+            deleteMessage(bot, String.valueOf(message1.getChatId()), message1.getMessageId(), countToDelete);
         } catch (TelegramApiException ex) {
             LOGGER.log(Level.ERROR, error);
         }
@@ -246,7 +249,8 @@ public enum BotStates {
         menu.setReplyMarkup(buttons);
 
         try {
-            bot.execute(menu);
+            Message message = bot.execute(menu);
+            deleteMessage(bot, String.valueOf(message.getChatId()), message.getMessageId(), 1);
         } catch (TelegramApiException ex) {
             LOGGER.log(Level.ERROR, error);
         }
@@ -264,8 +268,25 @@ public enum BotStates {
         }
     }
 
-    private void deleteMessage(){
+    private void deleteMessage(ChatBot bot, String chatId, int messageId, int messagesToDelete){
+        //TODO Create something better
+        for (int i = 1; i <= messagesToDelete; i++){
+            DeleteMessage message = new DeleteMessage();
+            message.setMessageId(messageId - i);
+            message.setChatId(chatId);
+            try {
+                bot.execute(message);
+            } catch (TelegramApiException ex) {
+                LOGGER.log(Level.ERROR, "BotStates/DeleteMessages: Delete message error. Trying delete message before.");
 
+                message.setMessageId(messageId - 2);
+                try {
+                    bot.execute(message);
+                } catch (TelegramApiException ex1) {
+                    LOGGER.log(Level.ERROR, "BotStates/DeleteMessages: Delete message error.");
+                }
+            }
+        }
     }
 
     private InlineKeyboardMarkup getDefaultButtons(boolean isAdmin) {

@@ -121,7 +121,7 @@ public class ChatBot extends TelegramLongPollingBot {
         if(news.equals(" ")) this.news = emptyText;
         else {
             String newNews = Icon.IMPORTANT.get() + " Оголошення " + Icon.IMPORTANT.get() +"\n"
-                    + "Новина за " + new SimpleDateFormat("ddMMyyyy").format(new Date()) + "\n"
+                    + "Новина за " + new SimpleDateFormat("dd.MM.yyyy").format(new Date()) + "\n"
                     + news;
             this.news = newNews;
         }
