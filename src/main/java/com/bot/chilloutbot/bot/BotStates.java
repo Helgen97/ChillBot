@@ -125,7 +125,7 @@ public enum BotStates {
                     На жаль, ми не можемо підтвердити твою бронь. \s
                     Ти можеш залишити свій номер і ми з радістю допоможемо тобі!""";
             String errorUserMessage = "BotState/Decline/Init: Executing message to user error";
-            DECLINE.sendMessage(bot, user.getStringID(), userText, DECLINE.getNumberButton(), errorUserMessage, 1);
+            DECLINE.sendMessage(bot, chatID, userText, DECLINE.getNumberButton(), errorUserMessage, 1);
         }
     },
     REVIEW {
@@ -279,8 +279,6 @@ public enum BotStates {
                 try {
                     bot.execute(message);
                 } catch (TelegramApiException ex) {
-                    LOGGER.log(Level.ERROR, "BotStates/DeleteMessages: Delete message error. Try to delete message before.");
-
                     message.setMessageId(messageId - 2);
                     try {
                         bot.execute(message);
