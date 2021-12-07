@@ -310,8 +310,8 @@ public enum BotStates {
             InlineKeyboardButton fiveButton = new InlineKeyboardButton();
             fiveButton.setText(Icon.NEW.get() + " Змінити новину");
             fiveButton.setCallbackData("/addNews");
-            firstRow.add(fiveButton);
-            allRows.add(firstRow);
+            fiveRow.add(fiveButton);
+            allRows.add(fiveRow);
         }
         keyboardMarkup.setKeyboard(allRows);
         return keyboardMarkup;
