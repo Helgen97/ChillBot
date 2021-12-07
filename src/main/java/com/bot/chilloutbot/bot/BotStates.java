@@ -271,7 +271,7 @@ public enum BotStates {
     private void deleteMessage(ChatBot bot, String chatId, int messageId, int messagesToDelete) {
         //TODO Create something better
         try {
-            Thread.sleep(1250);
+            Thread.sleep(500);
             for (int i = 1; i <= messagesToDelete; i++) {
                 DeleteMessage message = new DeleteMessage();
                 message.setMessageId(messageId - i);
