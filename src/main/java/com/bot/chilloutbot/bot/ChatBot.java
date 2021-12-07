@@ -93,7 +93,7 @@ public class ChatBot extends TelegramLongPollingBot {
     private User userExist(Update update) {
         User user;
         if (!userService.userExist(update.getMessage().getChatId())) {
-            user = new User(update.getMessage().getChat().getFirstName(), update.getMessage().getChat().getLastName(), update.getMessage().getChat().getUserName(), String.valueOf(update.getMessage().getChatId()));
+            user = new User(update.getMessage().getChat().getFirstName(), update.getMessage().getChat().getLastName(), update.getMessage().getChat().getUserName(), update.getMessage().getChatId());
             userService.addUser(user);
             LOGGER.log(Level.INFO, "New user register: " + user.getChatID());
         } else user = userService.findUserByChatId(update.getMessage().getChatId());

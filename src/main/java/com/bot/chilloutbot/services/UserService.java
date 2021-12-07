@@ -39,7 +39,7 @@ public class UserService {
     }
 
     @Transactional
-    public User findUserByChatId(long chatID){
+    public User findUserByChatId(Long chatID){
         return userRepo.findUserByChatID(chatID);
     }
 

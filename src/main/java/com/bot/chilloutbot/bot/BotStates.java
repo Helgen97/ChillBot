@@ -30,7 +30,7 @@ public enum BotStates {
                     """;
             String error = "BotState/Start/Init: Executing message to user error";
 
-            START.sendMessage(bot, user.getChatID(), userText, START.getDefaultButtons(user.isAdmin()), error );
+            START.sendMessage(bot, user.getStringID(), userText, START.getDefaultButtons(user.isAdmin()), error );
         }
     },
     NEWS{
@@ -38,7 +38,7 @@ public enum BotStates {
         public void init(ChatBot bot, User user) {
             String userText = bot.getNews();
             String errorUserMessage = "BotStates/News/Init: Executing message to user error";
-            NEWS.sendMessage(bot, user.getChatID(), userText, NEWS.getBackButton(), errorUserMessage);
+            NEWS.sendMessage(bot, user.getStringID(), userText, NEWS.getBackButton(), errorUserMessage);
         }
     },
     MENU {
@@ -46,10 +46,10 @@ public enum BotStates {
         public void init(ChatBot bot, User user) {
             String userText = "Відправляемо меню...";
             String errorUserMessage = "BotState/Menu/Init: Executing message to user error";
-            MENU.sendMessage(bot, String.valueOf(user.getChatID()), userText, null, errorUserMessage);
+            MENU.sendMessage(bot, user.getStringID(), userText, null, errorUserMessage);
 
             String errorDocumentMessage = "BotState/Menu/Init: Executing pdf to user error";
-            MENU.sendDocument(bot, String.valueOf(user.getChatID()), MENU.getBackButton(), errorDocumentMessage);
+            MENU.sendDocument(bot, user.getStringID(), MENU.getBackButton(), errorDocumentMessage);
 
         }
     },
@@ -64,7 +64,7 @@ public enum BotStates {
                     І в найближчий час тобі прийде оповіщення стосовно твоеї броні.\s
                     Чекаемо на тебе!""";
             String errorUserMessage = "BotState/Reserve/Init: Executing message to user error";
-            RESERVE.sendMessage(bot, user.getChatID(), userText, null, errorUserMessage);
+            RESERVE.sendMessage(bot, user.getStringID(), userText, null, errorUserMessage);
 
         }
 
@@ -72,11 +72,11 @@ public enum BotStates {
         public void userInput(ChatBot bot, User user, User userAdmin, String userInput) {
             String userText = "Дякую! Ми обов'язково перевіримо і повідомимо тебе про твою бронь.";
             String errorUserMessage = "BotState/Reserve/UserInput: Executing message to user error";
-            RESERVE.sendMessage(bot, user.getChatID(),userText, RESERVE.getBackButton(), errorUserMessage);
+            RESERVE.sendMessage(bot, user.getStringID(),userText, RESERVE.getBackButton(), errorUserMessage);
 
             String adminText = "Бажана бронь: \n" + userInput;
             String errorAdminMessage = "BotState/Reserve/UserInput: Executing message to admin error";
-            RESERVE.sendAdminMessage(bot, userAdmin.getChatID(), adminText, RESERVE.getReserveButtons(user.getChatID()), errorAdminMessage);
+            RESERVE.sendAdminMessage(bot, userAdmin.getStringID(), adminText, RESERVE.getReserveButtons(user.getStringID()), errorAdminMessage);
 
             user.setCurrentState(null);
         }
@@ -88,18 +88,18 @@ public enum BotStates {
 
             String userText = "Напиши нам свій номер і за декілька хвилин чекай нашого дзвінка.";
             String errorUserMessage = "BotState/Number/Init: Executing message to user error";
-            NUMBER.sendMessage(bot, user.getChatID(), userText, null, errorUserMessage);
+            NUMBER.sendMessage(bot, user.getStringID(), userText, null, errorUserMessage);
         }
 
         @Override
         public void userInput(ChatBot bot, User user, User userAdmin, String userInput) {
             String userText = "Дякую! За декілька хвилин ми наберемо тебе!";
             String errorUserMessage = "BotState/Number/UserInput: Executing message to user error";
-            NUMBER.sendMessage(bot, user.getChatID(), userText, RESERVE.getBackButton(), errorUserMessage);
+            NUMBER.sendMessage(bot, user.getStringID(), userText, RESERVE.getBackButton(), errorUserMessage);
 
             String adminText = user.getFirstName() + " " + user.getLastName() + " залишив свій номер:\n" + userInput;
             String errorAdminMessage = "BotState/Number/UserInput: Executing message to admin error";
-            NUMBER.sendAdminMessage(bot, userAdmin.getChatID(), adminText, null, errorAdminMessage);
+            NUMBER.sendAdminMessage(bot, userAdmin.getStringID(), adminText, null, errorAdminMessage);
 
             user.setCurrentState(null);
         }
@@ -123,7 +123,7 @@ public enum BotStates {
                     На жаль, ми не можемо підтвердити твою бронь. \s
                     Ти можеш залишити свій номер і ми з радістю допоможемо тобі!""";
             String errorUserMessage = "BotState/Decline/Init: Executing message to user error";
-            DECLINE.sendMessage(bot, user.getChatID(), userText, DECLINE.getNumberButton(), errorUserMessage);
+            DECLINE.sendMessage(bot, user.getStringID(), userText, DECLINE.getNumberButton(), errorUserMessage);
         }
     },
     REVIEW {
@@ -137,7 +137,7 @@ public enum BotStates {
                     Відправ відгук окремим повідомленням:\s
                     """;
             String errorUserMessage = "BotState/Review/Init: Executing message to user error";
-            REVIEW.sendMessage(bot, user.getChatID(), userText, null, errorUserMessage);
+            REVIEW.sendMessage(bot, user.getStringID(), userText, null, errorUserMessage);
         }
 
         @Override
@@ -147,12 +147,12 @@ public enum BotStates {
                     Чекаемо тебе в гості!
                     """;
             String errorUserMessage = "BotState/Review/UserInput: Executing message to user error";
-            REVIEW.sendMessage(bot, user.getChatID(), userText, REVIEW.getBackButton(), errorUserMessage);
+            REVIEW.sendMessage(bot, user.getStringID(), userText, REVIEW.getBackButton(), errorUserMessage);
 
             String adminText = "Відгук від: " + user.getFirstName() + " " + user.getLastName() +
                     "\n" + "Відгук: \n" + userInput;
             String errorAdminMessage = "BotState/Review/UserInput: Executing message to admin error";
-            REVIEW.sendAdminMessage(bot, userAdmin.getChatID(), adminText, null, errorAdminMessage);
+            REVIEW.sendAdminMessage(bot, userAdmin.getStringID(), adminText, null, errorAdminMessage);
 
             user.setCurrentState(null);
         }
@@ -186,7 +186,7 @@ public enum BotStates {
                      Адреса: Дніпровська Набережна, 25а\s
                     """;
             String errorUserMessage = "BotState/Contacts/Init: Executing message to user error";
-            CONTACTS.sendMessage(bot, user.getChatID(), userText, CONTACTS.getBackButton(), errorUserMessage);
+            CONTACTS.sendMessage(bot, user.getStringID(), userText, CONTACTS.getBackButton(), errorUserMessage);
         }
     },
     ADDNEWS{
@@ -195,7 +195,7 @@ public enum BotStates {
             user.setCurrentState(this);
             String userText = "Відправ новий текст новини: ";
             String errorUserText = "BotStates/AddNews/Init: Executing message to user error.";
-            ADDNEWS.sendMessage(bot, user.getChatID(), userText, null, errorUserText);
+            ADDNEWS.sendMessage(bot, user.getStringID(), userText, null, errorUserText);
         }
 
         @Override
@@ -204,7 +204,7 @@ public enum BotStates {
 
             String userText = "Новина успішно змінена!";
             String errorUserText = "BotStates/AddNews/UserInput: Executing message to user error.";
-            ADDNEWS.sendMessage(bot, user.getChatID(), userText, null, errorUserText);
+            ADDNEWS.sendMessage(bot, user.getStringID(), userText, null, errorUserText);
 
             user.setCurrentState(null);
         }
