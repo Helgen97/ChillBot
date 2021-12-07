@@ -25,17 +25,17 @@ public enum BotStates {
         public void init(ChatBot bot, User user) {
             String userText = Icon.HI.get() +
                     """
-                    Привіт!\s
-                    Вітаю в нашому чат боті!\s
-                    Обери одну з послуг, та натисни на неї.\s
-                    Обов'язково ознайомся с останніми новинами закладу!
-                    """;
+                            Привіт!\s
+                            Вітаю в нашому чат боті!\s
+                            Обери одну з послуг, та натисни на неї.\s
+                            Обов'язково ознайомся с останніми новинами закладу!
+                            """;
             String error = "BotState/Start/Init: Executing message to user error";
 
-            START.sendMessage(bot, user.getStringID(), userText, START.getDefaultButtons(user.isAdmin()), error, 1 );
+            START.sendMessage(bot, user.getStringID(), userText, START.getDefaultButtons(user.isAdmin()), error, 1);
         }
     },
-    NEWS{
+    NEWS {
         @Override
         public void init(ChatBot bot, User user) {
             String userText = bot.getNews();
@@ -55,7 +55,7 @@ public enum BotStates {
 
         }
     },
-    RESERVE{
+    RESERVE {
         @Override
         public void init(ChatBot bot, User user) {
             user.setCurrentState(this);
@@ -74,7 +74,7 @@ public enum BotStates {
         public void userInput(ChatBot bot, User user, User userAdmin, String userInput) {
             String userText = "Дякую! Ми обов'язково перевіримо і повідомимо тебе про твою бронь.";
             String errorUserMessage = "BotState/Reserve/UserInput: Executing message to user error";
-            RESERVE.sendMessage(bot, user.getStringID(),userText, RESERVE.getBackButton(), errorUserMessage, 2);
+            RESERVE.sendMessage(bot, user.getStringID(), userText, RESERVE.getBackButton(), errorUserMessage, 2);
 
             String adminText = "Бажана бронь: \n" + userInput;
             String errorAdminMessage = "BotState/Reserve/UserInput: Executing message to admin error";
@@ -97,7 +97,7 @@ public enum BotStates {
         public void userInput(ChatBot bot, User user, User userAdmin, String userInput) {
             String userText = "Дякую! За декілька хвилин ми наберемо тебе!";
             String errorUserMessage = "BotState/Number/UserInput: Executing message to user error";
-            NUMBER.sendMessage(bot, user.getStringID(), userText, RESERVE.getBackButton(), errorUserMessage,2);
+            NUMBER.sendMessage(bot, user.getStringID(), userText, RESERVE.getBackButton(), errorUserMessage, 2);
 
             String adminText = user.getFirstName() + " " + user.getLastName() + " залишив свій номер:\n" + userInput;
             String errorAdminMessage = "BotState/Number/UserInput: Executing message to admin error";
@@ -164,34 +164,34 @@ public enum BotStates {
         public void init(ChatBot bot, User user) {
             String userText =
                     Icon.CLOCK.get() +
-                             """
-                             Часи роботи: \s
-                                    Неділя - Четверг: 13:00 - 1:00 \s
-                                    П'ятниця - Субота: 13:00 - 2:00 \s
                             """
-                    +
-                    Icon.CALL.get()
-                    +
-                    """
-                     Наш номер: 0734454415\s
-                    """
-                    +
-                    Icon.INSTA.get()
-                    +
-                    """               
-                     Наш інстаграм: <a href = 'https://instagram.com/chillouthookah'>тиць</a> \s
-                    """
-                    +
-                    Icon.MAP.get()
-                    +
-                    """
-                     Адреса: Дніпровська Набережна, 25а\s
-                    """;
+                                     Часи роботи: \s
+                                            Неділя - Четверг: 13:00 - 1:00 \s
+                                            П'ятниця - Субота: 13:00 - 2:00 \s
+                                    """
+                            +
+                            Icon.CALL.get()
+                            +
+                            """
+                                     Наш номер: 0734454415\s
+                                    """
+                            +
+                            Icon.INSTA.get()
+                            +
+                            """               
+                                     Наш інстаграм: <a href = 'https://instagram.com/chillouthookah'>тиць</a> \s
+                                    """
+                            +
+                            Icon.MAP.get()
+                            +
+                            """
+                                     Адреса: Дніпровська Набережна, 25а\s
+                                    """;
             String errorUserMessage = "BotState/Contacts/Init: Executing message to user error";
             CONTACTS.sendMessage(bot, user.getStringID(), userText, CONTACTS.getBackButton(), errorUserMessage, 1);
         }
     },
-    ADDNEWS{
+    ADDNEWS {
         @Override
         public void init(ChatBot bot, User user) {
             user.setCurrentState(this);
@@ -224,21 +224,21 @@ public enum BotStates {
     public void userInput(ChatBot bot, User user, User userAdmin, String userInput) {
     }
 
-    private void sendMessage(ChatBot bot, String chatId, String text, InlineKeyboardMarkup buttons, String error, int countToDelete){
+    private void sendMessage(ChatBot bot, String chatId, String text, InlineKeyboardMarkup buttons, String error, int countToDelete) {
         SendMessage message = new SendMessage();
         message.enableHtml(true);
         message.setChatId(chatId);
         message.setText(text);
         message.setReplyMarkup(buttons);
         try {
-            Message message1 =bot.execute(message);
+            Message message1 = bot.execute(message);
             deleteMessage(bot, String.valueOf(message1.getChatId()), message1.getMessageId(), countToDelete);
         } catch (TelegramApiException ex) {
             LOGGER.log(Level.ERROR, error);
         }
     }
 
-    private void sendDocument(ChatBot bot, String chatID, InlineKeyboardMarkup buttons, String error){
+    private void sendDocument(ChatBot bot, String chatID, InlineKeyboardMarkup buttons, String error) {
         InputFile file = new InputFile();
         File menuFile = new File("src/main/resources/chillout.pdf");
         file.setMedia(menuFile, "Menu.pdf");
@@ -256,7 +256,7 @@ public enum BotStates {
         }
     }
 
-    private void sendAdminMessage(ChatBot bot, String adminChatID, String text, InlineKeyboardMarkup buttons, String error){
+    private void sendAdminMessage(ChatBot bot, String adminChatID, String text, InlineKeyboardMarkup buttons, String error) {
         SendMessage message = new SendMessage();
         message.setChatId(adminChatID);
         message.setText(text);
@@ -268,24 +268,29 @@ public enum BotStates {
         }
     }
 
-    private void deleteMessage(ChatBot bot, String chatId, int messageId, int messagesToDelete){
+    private void deleteMessage(ChatBot bot, String chatId, int messageId, int messagesToDelete) {
         //TODO Create something better
-        for (int i = 1; i <= messagesToDelete; i++){
-            DeleteMessage message = new DeleteMessage();
-            message.setMessageId(messageId - i);
-            message.setChatId(chatId);
-            try {
-                bot.execute(message);
-            } catch (TelegramApiException ex) {
-                LOGGER.log(Level.ERROR, "BotStates/DeleteMessages: Delete message error. Trying delete message before.");
-
-                message.setMessageId(messageId - 2);
+        try {
+            Thread.sleep(1250);
+            for (int i = 1; i <= messagesToDelete; i++) {
+                DeleteMessage message = new DeleteMessage();
+                message.setMessageId(messageId - i);
+                message.setChatId(chatId);
                 try {
                     bot.execute(message);
-                } catch (TelegramApiException ex1) {
-                    LOGGER.log(Level.ERROR, "BotStates/DeleteMessages: Delete message error.");
+                } catch (TelegramApiException ex) {
+                    LOGGER.log(Level.ERROR, "BotStates/DeleteMessages: Delete message error. Try to delete message before.");
+
+                    message.setMessageId(messageId - 2);
+                    try {
+                        bot.execute(message);
+                    } catch (TelegramApiException ex1) {
+                        LOGGER.log(Level.ERROR, "BotStates/DeleteMessages: Delete message error.");
+                    }
                 }
             }
+        } catch (InterruptedException e) {
+            LOGGER.log(Level.ERROR, "BotStates/DeleteMessages: Thread sleeping error.");
         }
     }
 
@@ -326,7 +331,7 @@ public enum BotStates {
         allRows.add(thirdRow);
         allRows.add(fourthRow);
 
-        if(isAdmin){
+        if (isAdmin) {
             List<InlineKeyboardButton> fiveRow = new ArrayList<>();
             InlineKeyboardButton fiveButton = new InlineKeyboardButton();
             fiveButton.setText(Icon.NEW.get() + " Змінити новину");
