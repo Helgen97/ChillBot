@@ -13,7 +13,7 @@ public class UserService {
 
     private final UserRepo userRepo;
 
-    @Value("bot.admin")
+    @Value("${bot.admin}")
     private String adminUsername;
 
     public UserService(UserRepo userRepo) {
@@ -48,4 +48,11 @@ public class UserService {
         return userRepo.findUserByIsAdmin(true);
     }
 
+    public String getAdminUsername() {
+        return adminUsername;
+    }
+
+    public void setAdminUsername(String adminUsername) {
+        this.adminUsername = adminUsername;
+    }
 }

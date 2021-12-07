@@ -15,7 +15,10 @@ public enum Icon {
     CALL(":iphone:"),
     INSTA(":stars:"),
     MAP(":world_map:"),
-    HI(":wave:");
+    HI(":wave:"),
+    NEWS(":newspaper:"),
+    NEW(":new:"),
+    IMPORTANT(":exclamation:");
 
     private String value;
 

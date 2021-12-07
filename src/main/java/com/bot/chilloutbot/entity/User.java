@@ -22,7 +22,7 @@ public class User {
     private String username;
 
     @Column(name = "Chat_Id", nullable = false)
-    private long chatID;
+    private String chatID;
 
     @Column(name = "isAdmin")
     private boolean isAdmin = false;
@@ -34,7 +34,7 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String secondName, String username, long chatID) {
+    public User(String firstName, String secondName, String username, String chatID) {
         this.firstName = firstName;
         this.lastName = secondName;
         this.username = username;
@@ -73,11 +73,11 @@ public class User {
         this.username = username;
     }
 
-    public long getChatID() {
+    public String getChatID() {
         return chatID;
     }
 
-    public void setChatID(long chatID) {
+    public void setChatID(String chatID) {
         this.chatID = chatID;
     }
 
